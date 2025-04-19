@@ -1,3 +1,15 @@
 from django.contrib import admin
 
-# Register your models here.
+from mptt.admin import DraggableMPTTAdmin
+from .models import Category, Post
+
+
+@admin.register(Category)
+class CategoryAdmin(DraggableMPTTAdmin):
+    """
+    Админ-панель модели категорий
+    """
+    prepopulated_fields = {'slug': ('title',)}
+
+
+admin.site.register(Post)
