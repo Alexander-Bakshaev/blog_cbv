@@ -7,11 +7,11 @@
         {% else %}
             <p>Нет изображения</p>
         {% endif %}
-        <strong>{{ post.title }}</strong>
+        <strong><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></strong>
         <p>{{ post.description }}</p>
         <small>{{ post.create }}</small>
         <hr>
         <span>{{ post.category.title }}</span>
-        <br>
+        <p></p>
     {% endfor %}
 {% endblock %}
