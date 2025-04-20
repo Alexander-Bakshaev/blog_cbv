@@ -12,8 +12,6 @@ class Post(models.Model):
     Модель постов для нашего блога
     """
 
-
-
     STATUS_OPTIONS = (
         ('published', 'Опубликовано'),
         ('draft', 'Черновик')
@@ -24,12 +22,13 @@ class Post(models.Model):
     description = models.TextField(verbose_name='Краткое описание', max_length=500)
     text = models.TextField(verbose_name='Полный текст записи')
     category = TreeForeignKey(to='Category', on_delete=models.PROTECT, related_name='posts', verbose_name='Категория')
-    thumbnail = models.ImageField(default='default.jpg',
-        verbose_name='Изображение записи',
-        blank=True,
-        upload_to='images/thumbnails/%Y/%m/%d/',
-        validators=[FileExtensionValidator(allowed_extensions=('png', 'jpg', 'webp', 'jpeg', 'gif'))]
-    )
+    thumbnail = models.ImageField(default='default.png',
+                                  verbose_name='Изображение записи',
+                                  blank=True,
+                                  upload_to='images/thumbnails/%Y/%m/%d/',
+                                  validators=[
+                                      FileExtensionValidator(allowed_extensions=('png', 'jpg', 'webp', 'jpeg', 'gif'))]
+                                  )
     status = models.CharField(choices=STATUS_OPTIONS, default='published', verbose_name='Статус записи', max_length=10)
     create = models.DateTimeField(auto_now_add=True, verbose_name='Время добавления')
     update = models.DateTimeField(auto_now=True, verbose_name='Время обновления')
@@ -93,6 +92,12 @@ class Category(MPTTModel):
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
         db_table = 'app_categories'
+
+    def get_absolute_url(self):
+        """
+        Получаем прямую ссылку на категорию
+        """
+        return reverse('post_by_category', kwargs={'slug': self.slug})
 
     def __str__(self):
         """
