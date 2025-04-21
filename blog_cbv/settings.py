@@ -27,7 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,6 +42,7 @@ INSTALLED_APPS = [
     'apps.blog.apps.BlogConfig',
     'mptt',
     'django_mptt_admin',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'blog_cbv.urls'
@@ -127,3 +131,12 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# def show_toolbar(request):
+#     return True
+#
+#
+# DEBUG_TOOLBAR_CONFIG = {
+#     "SHOW_TOOLBAR_CALLBACK": show_toolbar,
+# }
