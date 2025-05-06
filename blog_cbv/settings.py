@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -47,8 +48,8 @@ INSTALLED_APPS = [
     'django_recaptcha',
 ]
 
-RECAPTCHA_PUBLIC_KEY = '6LfZLjArAAAAAPPJuyZe5dir6jEP0IUom0YKUrY1'
-RECAPTCHA_PRIVATE_KEY = '6LfZLjArAAAAAM44inXq3mm0C1VfNszKsTif8q00'
+RECAPTCHA_PUBLIC_KEY = config('RECAPTCHA_PUBLIC_KEY')
+RECAPTCHA_PRIVATE_KEY = config('RECAPTCHA_PRIVATE_KEY')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
