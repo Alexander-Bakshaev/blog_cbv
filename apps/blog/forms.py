@@ -1,4 +1,6 @@
 from django import forms
+from django_recaptcha.fields import ReCaptchaField
+
 from .models import Post, Comment
 
 
@@ -51,6 +53,8 @@ class CommentCreateForm(forms.ModelForm):
     content = forms.CharField(label='', widget=forms.Textarea(
         attrs={'cols': 30, 'rows': 5, 'placeholder': 'Комментарий', 'class': 'form-control'}))
 
+    recaptcha = ReCaptchaField()
+
     class Meta:
         model = Comment
-        fields = ('content',)
+        fields = ('content', 'parent', 'recaptcha')

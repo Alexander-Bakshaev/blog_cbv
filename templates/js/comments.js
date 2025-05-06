@@ -65,6 +65,7 @@ async function createComment(event) {
             document.querySelector('.nested-comments').insertAdjacentHTML("beforeend", commentTemplate)
         }
         commentForm.reset()
+        grecaptcha.reset()
         commentFormSubmit.disabled = false;
         commentFormSubmit.innerText = "Добавить комментарий";
         commentFormParentInput.value = null;

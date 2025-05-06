@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
 from .models import Profile
+from django_recaptcha.fields import ReCaptchaField
 
 
 class UserUpdateForm(forms.ModelForm):
@@ -52,6 +53,7 @@ class UserRegisterForm(UserCreationForm):
     """
     Переопределенная форма регистрации пользователей
     """
+    recaptcha = ReCaptchaField()
 
     class Meta(UserCreationForm.Meta):
         fields = ('username', 'password1', 'password2', 'email', 'first_name', 'last_name')
@@ -70,14 +72,20 @@ class UserRegisterForm(UserCreationForm):
         Обновление стилей формы регистрации
         """
         super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs['class'] = 'form-control'
         self.fields['username'].widget.attrs.update({"placeholder": "Придумайте свой логин"})
+        self.fields['password1'].widget.attrs['class'] = 'form-control'
         self.fields['password1'].widget.attrs.update({"placeholder": "Придумайте свой пароль"})
+        self.fields['password2'].widget.attrs['class'] = 'form-control'
         self.fields['password2'].widget.attrs.update({"placeholder": "Повторите придуманный пароль"})
+        self.fields['email'].widget.attrs['class'] = 'form-control'
         self.fields['email'].widget.attrs.update({"placeholder": "Введите свой email"})
+        self.fields['first_name'].widget.attrs['class'] = 'form-control'
         self.fields['first_name'].widget.attrs.update({"placeholder": "Ваше имя"})
+        self.fields['last_name'].widget.attrs['class'] = 'form-control'
         self.fields['last_name'].widget.attrs.update({"placeholder": "Ваша фамилия"})
-        for field in self.fields:
-            self.fields[field].widget.attrs.update({"class": "form-control", "autocomplete": "off"})
+        # for field in self.fields:
+        #     self.fields[field].widget.attrs.update({"class": "form-control", "autocomplete": "off"})
 
 
 class UserLoginForm(AuthenticationForm):
@@ -85,16 +93,18 @@ class UserLoginForm(AuthenticationForm):
     Форма авторизации на сайте
     """
 
+    recaptcha = ReCaptchaField()
+
+    class Meta:
+        model = User
+        fields = ['username', 'password', 'recaptcha']
     def __init__(self, *args, **kwargs):
         """
-        Обновление стилей формы авторизации
+        Обновление атрибутов полей формы регистрации
         """
         super().__init__(*args, **kwargs)
         self.fields['username'].widget.attrs['placeholder'] = 'Логин пользователя'
+        self.fields['username'].widget.attrs['class'] = 'form-control'
         self.fields['password'].widget.attrs['placeholder'] = 'Пароль пользователя'
+        self.fields['password'].widget.attrs['class'] = 'form-control'
         self.fields['username'].label = 'Логин'
-        for field in self.fields:
-            self.fields[field].widget.attrs.update({
-                'class': 'form-control',
-                'autocomplete': 'off'
-            })
