@@ -12,16 +12,19 @@
                 <div class="col-md-9">
                     <h5 class="card-title">
                         {{ profile }}
+                        <span class="badge {% if profile.is_online %}bg-success{% else %}bg-secondary{% endif %} ms-2">
+                            {% if profile.is_online %}Сейчас онлайн{% else %}Не в сети{% endif %}
+                        </span>
                     </h5>
                     <div class="card-text">
-                        <ul>
-                            <li>Никнейм: {{ profile.user.username }}</li>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><strong>Никнейм:</strong> {{ profile.user.username }}</li>
                             {% if profile.user.get_full_name %}
-                                <li>Имя и фамилия: {{ profile.user.get_full_name }}</li> {% endif %}
-                            <li>Заходил: {{ profile.user.last_login }} | {% if profile.is_online %}Онлайн{% else %}Не в
-                                сети{% endif %}</li>
-                            <li>Дата рождения: {{ profile.birth_date }}</li>
-                            <li>О себе: {{ profile.bio }}</li>
+                                <li class="mb-2"><strong>Имя и фамилия:</strong> {{ profile.user.get_full_name }}</li>
+                            {% endif %}
+                            <li class="mb-2"><strong>Последний визит:</strong> {{ profile.user.last_login|date:"d E Y H:i" }}</li>
+                            <li class="mb-2"><strong>Дата рождения:</strong> {{ profile.birth_date|date:"d E Y" }}</li>
+                            <li class="mb-2"><strong>О себе:</strong> {{ profile.bio }}</li>
                         </ul>
                         {% if request.user == profile.user %}
                             <a href="{% url 'profile_edit' %}" class="btn btn-sm btn-primary">
